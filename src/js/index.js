@@ -1,7 +1,7 @@
-const arr = [1, 3, 434, 34];
-const myFunc = (a) => {
-  console.log(`Тоо: ${a}`);
-};
-const arr1 = [...arr, 12, 32];
+import Search from "./model/Search";
 
-myFunc(arr1[5]);
+let search = new Search("pasta");
+search
+  .doSearch()
+  .then((r) => console.log(r))
+  .catch((er) => console.log(er));
