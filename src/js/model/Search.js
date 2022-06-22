@@ -13,7 +13,7 @@ export default class Search {
       this.recipes = result.data.recipes;
       return this.recipes;
     } catch (error) {
-      alert("Асуудал гарлаа " + error);
+      console.log("Асуудал гарлаа " + error);
     }
   }
 }
