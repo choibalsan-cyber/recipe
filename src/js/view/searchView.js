@@ -25,9 +25,40 @@ title: "Pasta Salad with Tomatoes, Zuc*/
 };
 
 export const clearSearchQuery = () => (elements.searchInput.value = "");
-export const clearSearchResult = () =>
-  (elements.searchResultList.innerHTML = "");
+export const clearSearchResult = () => {
+  elements.searchResultList.innerHTML = "";
+  elements.buttonResult.innerHTML = "";
+};
 export const getInput = () => elements.searchInput.value;
-export const renderRecipies = (recipies) => {
-  recipies.forEach(renderRecipe);
+export const renderRecipies = (recipies, currentPage = 1, resPerPage = 10) => {
+  let start = (currentPage - 1) * resPerPage;
+  let end = currentPage * resPerPage;
+  recipies.slice(start, end).forEach(renderRecipe);
+
+  const totalPages = Math.ceil(recipies.length / resPerPage);
+  renderButtons(currentPage, totalPages);
+};
+
+const createButton = (
+  page,
+  type,
+  direction
+) => ` <button class="btn-inline results__btn--${type}" data-goto=${page}>
+<svg class="search__icon">
+    <use href="img/icons.svg#icon-triangle-${direction}"></use>
+</svg>
+<span>Хуудас ${page}</span>
+</button>`;
+
+const renderButtons = (currentPage, totalPages) => {
+  let button;
+  if (currentPage === 1 && totalPages > 1) {
+    button = createButton(2, "next", "right");
+  } else if (currentPage < totalPages) {
+    button = createButton(currentPage - 1, "prev", "left");
+    button += createButton(currentPage + 1, "next", "right");
+  } else if (currentPage === totalPages) {
+    button = createButton(currentPage - 1, "prev", "left");
+  }
+  elements.buttonResult.insertAdjacentHTML("afterbegin", button);
 };
